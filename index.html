@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frogger</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        
+        var a;
+        var frog = createImage("https://th.bing.com/th/id/R.ba821acad38c76a1398c91abe2dd1c89?rik=xAPnQvfY7xWxeg&riu=http%3a%2f%2fwww.pngmart.com%2ffiles%2f1%2fFrog-Transparent-Background.png&ehk=NnGK%2bVMOp5cozZrEZC8j6mxYFjeXdOqSs8Ig%2fwUCGLE%3d&risl=&pid=ImgRaw&r=0", "frog1", 220, 463, 35, 35);
+        var collision = false;
+
+        var carArray1 = [];
+        var carArray2 = [];
+
+        var carArray3 = [];
+        var carArray4 = [];
+
+        var carArray5 = [];
+        var carArray6 = [];
+
+        var lives = 3;
+        var checklevelup2 = false;
+        var checklevelup3 = false;
+        var win = false;
+        var lost = false
+    
+
+        function createImage(src, title, xcoord, ycoord, width, height) {
+            var img = new Image();
+            img.src = src;
+            img.alt = title;
+            img.title = title;
+            img.left = xcoord;
+            img.top = ycoord;
+            img.width = width;
+            img.height = height;
+            return img;
+        }
+
+        function initialize() {
+            if(checklevelup2 === false && checklevelup3 === false){
+            document.getElementById("text").innerHTML = "Level 1!";
+            carArray1.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car1", -400, 420, 65, 40));
+            carArray1.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car2", -100, 340, 65, 40));
+            carArray1.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car3", -300, 280, 65, 40));
+            carArray2.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car4", 900, 200, 65, 40));
+            carArray2.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car5", 500, 130, 65, 40));
+            carArray2.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car6", 800, 70, 65, 40));
+            drawBackground();
+        }
+            
+            if(checklevelup2 === true && checklevelup3 === false){
+            document.getElementById("text").innerHTML = "Level 2!";
+            carArray3.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car7", -400, 420, 65, 40));
+            carArray3.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car8", -100, 340, 65, 40));
+            carArray3.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car9", -300, 280, 65, 40));
+            carArray4.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car10", 900, 180, 65, 40));
+            carArray4.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car11", 500, 120, 65, 40));
+            carArray4.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car12", 800, 50, 65, 40));
+            drawBackground();
+            
+        }
+
+        if(checklevelup2 === true && checklevelup3 === true){
+            document.getElementById("text").innerHTML = "Level 3!";
+            carArray5.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car7", -400, 420, 65, 40));
+            carArray5.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car8", -100, 360, 65, 40));
+            carArray5.push(createImage("https://drc1smdpmzpys.cloudfront.net/wp-content/uploads/vehicle-tracking-480x164.png", "car9", -300, 300, 65, 40));
+            carArray6.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car10", 900, 150, 65, 40));
+            carArray6.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car11", 500, 100, 65, 40));
+            carArray6.push(createImage("https://th.bing.com/th/id/R.1efa549df250eb0940d5c9fccd2458ae?rik=MqNtlILhKv3QuQ&riu=http%3a%2f%2fcliparts.co%2fcliparts%2f6cp%2f67k%2f6cp67k9di.png&ehk=azpc%2fUcO0cyrlundAvuLCVGjR1tMZLjuHH%2fZHx6Yfjw%3d&risl=&pid=ImgRaw&r=0", "car12", 800, 40, 65, 40));
+            drawBackground();
+            
+        }
+    }
+
+        function drawBackground() {
+            
+    if(win === true && lost === false){
+    var ctx = document.getElementById("myCanvas").getContext("2d");
+    
+    ctx.beginPath();
+    ctx.arc(250, 250, 200, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'yellow';
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.font = '50px Arial';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.fillText('YOU WIN!', 250, 250);
+
+            }
+
+            if(lost === true && win === false){
+    var ctx = document.getElementById("myCanvas").getContext("2d");
+    
+    ctx.beginPath();
+    ctx.arc(250, 250, 200, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.font = '50px Arial';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.fillText('YOU LOSE!', 250, 250);
+            
+            }
+
+            if(checklevelup2 === false && checklevelup3 === false && win === false && lost === false){
+            var ctx = document.getElementById("myCanvas").getContext("2d");
+            var backgroundImg = new Image();
+            backgroundImg.src = "https://codingwednesday.weebly.com/uploads/3/7/5/4/37546767/frogger_background.gif"; 
+            backgroundImg.onload = function() {
+                ctx.drawImage(backgroundImg, 0, 0, 500, 500);
+            };
+            
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "transparent";
+            ctx.fillRect(0, 0, 500, 58);
+        }
+
+        if(checklevelup2 === true && checklevelup3 === false && win === false && lost === false){
+            var ctx = document.getElementById("myCanvas").getContext("2d");
+            var backgroundImg = new Image();
+            backgroundImg.src = "https://danielafcarey.github.io/frogger/assets/background.png"; 
+            backgroundImg.onload = function() {
+                ctx.drawImage(backgroundImg, 0, 0, 500, 500);
+            };
+            
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "transparent";
+            ctx.fillRect(0, 0, 500, 35);
+        }
+
+            if(checklevelup2 === true && checklevelup3 === true && win === false && lost === false){
+                var ctx = document.getElementById("myCanvas").getContext("2d");
+            var backgroundImg = new Image();
+            backgroundImg.src = "https://media.cheggcdn.com/media/515/515a06fd-3a34-4fd4-ab72-dff18159e95f/phpMqcezF"; 
+            backgroundImg.onload = function() {
+                ctx.drawImage(backgroundImg, 0, 0, 500, 500);
+            };
+            
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "transparent";
+            ctx.fillRect(0, 0, 500, 30);
+            }
+        }
+        
+  
+        
+
+        function checkCollision() {
+   
+            if(checklevelup2 === false && checklevelup3 === false){
+                for (var i = 0; i < carArray1.length; i++) {
+                    var cars = carArray1[i];
+                    if (
+                        frog.left + frog.width > cars.left &&
+                        frog.left < cars.left + cars.width &&
+                        frog.top + frog.height > cars.top &&
+                        frog.top < cars.top + cars.height
+                    ) {
+                       
+                        frog.left = 220;
+                        frog.top = 463;
+                        collision = true;
+                        lives --;
+                        break; 
+                    }
+                }
+                
+                for (var i = 0; i < carArray2.length; i++) {
+                    var cars = carArray2[i];
+                    if (
+                        frog.left + frog.width > cars.left &&
+                        frog.left < cars.left + cars.width &&
+                        frog.top + frog.height > cars.top &&
+                        frog.top < cars.top + cars.height
+                    ) {
+                        
+                        frog.left = 220;
+                        frog.top = 463;
+                        collision = true;
+                         lives --;
+                        break; 
+                    }
+                }
+
+             
+            }
+
+            if(checklevelup2 === true && checklevelup3 === false){
+                for (var i = 0; i < carArray3.length; i++) {
+                    var cars = carArray3[i];
+                    if (
+                        frog.left + frog.width > cars.left &&
+                        frog.left < cars.left + cars.width &&
+                        frog.top + frog.height > cars.top &&
+                        frog.top < cars.top + cars.height
+                    ) {
+                       
+                        frog.left = 220;
+                        frog.top = 463;
+                        collision = true;
+                        lives --;
+                        
+                        break; 
+                    }
+                }
+                
+                for (var i = 0; i < carArray4.length; i++) {
+                    var cars = carArray4[i];
+                    if (
+                        frog.left + frog.width > cars.left &&
+                        frog.left < cars.left + cars.width &&
+                        frog.top + frog.height > cars.top &&
+                        frog.top < cars.top + cars.height
+                    ) {
+                        
+                        frog.left = 220;
+                        frog.top = 463;
+                        collision = true;
+                        lives --;
+                        break; 
+                        }
+                        
+                    }
+                }
+
+              
+            
+                
+            if(checklevelup2 === true && checklevelup3 === true){
+                for (var i = 0; i < carArray5.length; i++) {
+                    var cars = carArray5[i];
+                    if (
+                        frog.left + frog.width > cars.left &&
+                        frog.left < cars.left + cars.width &&
+                        frog.top + frog.height > cars.top &&
+                        frog.top < cars.top + cars.height
+                    ) {
+                       
+                        frog.left = 220;
+                        frog.top = 463;
+                        collision = true;
+                        lives --;
+                        break; 
+                    }
+                }
+                
+                for (var i = 0; i < carArray6.length; i++) {
+                    var cars = carArray6[i];
+                    if (
+                        frog.left + frog.width > cars.left &&
+                        frog.left < cars.left + cars.width &&
+                        frog.top + frog.height > cars.top &&
+                        frog.top < cars.top + cars.height
+                    ) {
+                        
+                        frog.left = 220;
+                        frog.top = 463;
+                        collision = true;
+                        lives --;
+                        break; 
+                    }
+                }
+
+                
+            }
+
+            document.getElementById("displaylives").innerHTML = lives;
+
+            if (lives <= 0){
+                lost = true;
+                document.getElementById("displaylives").innerHTML = "No more lives!";
+                document.getElementById("text").innerHTML = "You Lost : (";
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBackground();
+                }
+        }
+
+        
+        function moveCars() {
+            var ctx = document.getElementById("myCanvas").getContext("2d");
+                         
+            if(checklevelup2 === false && checklevelup3 === false){
+            for (var i = 0; i < carArray1.length; i++) {
+                carArray1[i].left += 3;
+                ctx.drawImage(carArray1[i], carArray1[i].left, carArray1[i].top, carArray1[i].width, carArray1[i].height);
+                if (carArray1[i].left > 600) {
+                    carArray1[i].left = -200;
+                }
+            }
+            
+               for (var i = 0; i < carArray2.length; i++) {
+                carArray2[i].left -= 3;
+                ctx.drawImage(carArray2[i], carArray2[i].left, carArray2[i].top, carArray2[i].width, carArray2[i].height);
+                if (carArray2[i].left < -100) {
+                    carArray2[i].left = 700;
+                }
+            }
+        }
+        if(checklevelup2 === true && checklevelup3 === false){
+                for (var i = 0; i < carArray3.length; i++) {
+                carArray3[i].left += 6;
+                ctx.drawImage(carArray3[i], carArray3[i].left, carArray3[i].top, carArray3[i].width, carArray3[i].height);
+                if (carArray3[i].left > 600) {
+                    carArray3[i].left = -200;
+                }
+            }
+            
+               for (var i = 0; i < carArray4.length; i++) {
+                carArray4[i].left -= 6;
+                ctx.drawImage(carArray4[i], carArray4[i].left, carArray4[i].top, carArray4[i].width, carArray4[i].height);
+                if (carArray4[i].left < -100) {
+                    carArray4[i].left = 700;
+                }
+            }
+            }
+          
+            if(checklevelup3 === true && checklevelup2 === true){
+                  for (var i = 0; i < carArray5.length; i++) {
+                carArray5[i].left += 3;
+                ctx.drawImage(carArray5[i], carArray5[i].left, carArray5[i].top, carArray5[i].width, carArray5[i].height);
+                if (carArray5[i].left > 600) {
+                    carArray5[i].left = -200;
+                }
+            }
+                  for (var i = 0; i < carArray6.length; i++) {
+                carArray6[i].left -= 3;
+                ctx.drawImage(carArray6[i], carArray6[i].left, carArray6[i].top, carArray6[i].width, carArray6[i].height);
+                if (carArray6[i].left < -100) {
+                    carArray6[i].left = 700;
+                }
+            }
+            
+        }
+          
+       
+      
+        }
+
+
+            
+      
+    
+      
+        
+    
+
+        function moveFrog(keycode) {
+            var ctx = document.getElementById("myCanvas").getContext("2d");
+            if (keycode == 65) {
+               
+                frog.left -= 10;
+            } else if (keycode == 83) {
+               
+                frog.top += 10;
+            } else if (keycode == 87) {
+              
+                frog.top -= 10;
+            } else if (keycode == 68) {
+              
+                frog.left += 10;
+            }
+            
+            if(frog.top <= 58 && checklevelup2 == false){
+                checklevelup2 = true;
+                frog.left = 220;
+                frog.top = 463;
+                lives = 3;
+                initialize();
+            }
+            
+            if(frog.top <= 35 && checklevelup2 == true && checklevelup3 == false){
+                checklevelup3 = true;
+                frog.left = 220;
+                frog.top = 463;
+                lives = 3;
+                initialize();
+                
+            }
+
+            if(frog.top <= 30 && checklevelup3 == true){
+                win = true;
+                document.getElementById("text").innerHTML = "You Win :)";
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBackground();
+                
+            }
+            
+            
+            
+            frog.left = Math.max(0, Math.min(500 - frog.width, frog.left));
+            frog.top = Math.max(0, Math.min(500 - frog.height, frog.top));
+            
+            ctx.drawImage(frog, frog.left, frog.top, frog.width, frog.height);
+        }
+
+        function handleKeyPress(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+                moveFrog(keycode);
+                checkCollision();
+                moveCars();
+        
+        }
+
+        function startAnimation() {
+            win = false;
+            lost = false;
+            checklevelup2 = false;
+            checklevelup3 = false;
+            lives = 3;
+            frog.left = 220;
+            frog.top = 463;
+            animate();
+        }
+
+        function animate() {
+            a = requestAnimationFrame(animate);
+            drawBackground();
+            moveFrog();
+            checkCollision();
+            moveCars();
+        }
+
+        function stopAnimation() {
+            window.location.reload();
+            frog.left = 220;
+            frog.top = 463;
+            cancelAnimationFrame(a);
+            
+            
+        }
+
+        window.onload = initialize;
+        $(document).keydown(handleKeyPress);
+        
+    </script>
+</head>
+    <body onload="initialize()">
+        <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+        <button type="button" onclick="startAnimation()">Click to start!</button>
+        <button type="button" onclick="stopAnimation()">Click to stop!</button>
+        <br>
+        <h1 id = "text"></h1>
+        <p>Lives: <span id = "displaylives"></span></p>
+    </body>
+    </html>
